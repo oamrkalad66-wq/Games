@@ -2,11 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="theme-color" content="#0a0a15">
 <title>🎮 مجمع الألعاب</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',Tahoma,sans-serif}
 body{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:#fff}
 #menu{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100vh;padding:20px;overflow-y:auto}
@@ -31,24 +31,22 @@ canvas{display:block;background:#000;border-radius:8px;max-width:100%;max-height
 #dpad.on{display:block}
 .dbtn{position:absolute;width:60px;height:60px;background:rgba(0,212,255,.25);border:2px solid rgba(0,212,255,.6);border-radius:50%;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;pointer-events:auto;font-family:inherit}
 .dbtn:active{background:rgba(0,212,255,.6);transform:scale(.95)}
-#ov{position:absolute;inset:0;background:rgba(0,0,0,.88);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10;gap:12px;padding:20px;text-align:center}
-#ov.on{display:flex}
+#ov{position:absolute;inset:0;background:rgba(0,0,0,.88);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10;gap:12px;12pxpadding:20 px;text-align:center}
+#ov.on32{display:flex}
 #ov h2{font-size:24px;color:#00d4ff}
 #ov .sc{font-size:18px;color:#00ff88}
 #ov .bs{font-size:14px;color:#ffaa00}
-#ov button{background:linear-gradient(135deg,#00d4ff,#0077ff);border:none;color:#fff;padding:12px 32px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:8px}
+#ov button{background:linear-gradient(135deg,#00d4ff,#0077ff);border:none;color:#fff;padding:px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:8px}
 #ov button:active{transform:scale(.95)}
 .hint{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:11px;color:rgba(255,255,255,.4);text-align:center;pointer-events:none;white-space:nowrap;padding:4px 10px}
 </style>
 </head>
 <body>
-
 <div id="menu">
 <h1>🎮 مجمع الألعاب</h1>
 <p>اختر لعبتك وابدأ المتعة</p>
 <div class="grid" id="grid"></div>
 </div>
-
 <div id="game">
 <div class="hd">
 <button class="bk" onclick="exitG()">↩ رجوع</button>
@@ -91,7 +89,7 @@ const grid=document.getElementById('grid');
 GAMES.forEach(g=>{
 const c=document.createElement('div');
 c.className='card';
-c.innerHTML=`<span class="ic">${g.ic}</span><span class="nm">${g.nm}</span>`;
+c.innerHTML='<span class="ic">'+g.ic+'</span><span class="nm">'+g.nm+'</span>';
 c.onclick=()=>startG(g.id);
 grid.appendChild(c);
 });
@@ -134,13 +132,13 @@ cv.onpointerdown=null;cv.onpointermove=null;cv.onpointerup=null;
 }
 function restart(){if(cur)startG(cur)}
 
-/* ========== 1) SNAKE ========== */
+/* SNAKE */
 let sn,dir,food,sc,cs=15;
 function initSnake(){
 tt.textContent='🐍 الثعبان';
 rz(300,300);cs=300/15;
 sn=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];dir={x:1,y:0};sc=0;
-spawnFood();updSt();
+spawnFood();updSt1();
 loop=setInterval(stepSn,130);
 setDpad([
 {l:'▲',x:'50%',b:'130px',dn:()=>setDir(0,-1)},
@@ -156,7 +154,7 @@ function stepSn(){
 const h={x:sn[0].x+dir.x,y:sn[0].y+dir.y};
 if(h.x<0||h.x>=15||h.y<0||h.y>=15||sn.some(s=>s.x===h.x&&s.y===h.y)){endSn();return}
 sn.unshift(h);
-if(h.x===food.x&&h.y===food.y){sc++;spawnFood();updSt()}else sn.pop();
+if(h.x===food.x&&h.y===food.y){sc++;spawnFood();updSt1()}else sn.pop();
 drawSn();
 }
 function drawSn(){
@@ -167,10 +165,10 @@ ctx.fillStyle='#ff3366';ctx.beginPath();ctx.arc(food.x*cs+cs/2,food.y*cs+cs/2,cs
 sn.forEach((s,i)=>{ctx.fillStyle=i===0?'#00ff88':'#00d4ff';ctx.globalAlpha=i===0?1:Math.max(.4,1-i*.03);ctx.beginPath();ctx.roundRect(s.x*cs+1,s.y*cs+1,cs-2,cs-2,4);ctx.fill()});
 ctx.globalAlpha=1;
 }
-function updSt(){st.innerHTML=`النقاط: <span>${sc}</span>`}
+function updSt1(){st.innerHTML='النقاط: <span>'+sc+'</span>'}
 function endSn(){clearInterval(loop);loop=null;setBest('snake',sc);showOv('انتهت اللعبة 😵',sc,getBest('snake'))}
 
-/* ========== 2) BREAKOUT ========== */
+/* BREAKOUT */
 let bl,pd,br,sc2,lv;
 function initBr(){
 tt.textContent='🧱 تكسير الطوب';
@@ -208,10 +206,10 @@ br.forEach(b=>{if(!b.on)return;ctx.fillStyle=b.col;ctx.beginPath();ctx.roundRect
 ctx.fillStyle='#00d4ff';ctx.beginPath();ctx.roundRect(pd.x,pd.y,pd.w,pd.h,6);ctx.fill();
 ctx.fillStyle='#ff3366';ctx.beginPath();ctx.arc(bl.x,bl.y,bl.r,0,Math.PI*2);ctx.fill();
 }
-function updSt2(){st.innerHTML=`النقاط: <span>${sc2}</span> | ❤️ <span>${lv}</span>`}
+function updSt2(){st.innerHTML='النقاط: <span>'+sc2+'</span> | ❤️ <span>'+lv+'</span>'}
 function endBr(w){cancelAnimationFrame(af);af=null;bl=null;setBest('breakout',sc2);showOv(w?'فزت! 🎉':'انتهت اللعبة',sc2,getBest('breakout'))}
 
-/* ========== 3) TIC TAC TOE ========== */
+/* TIC TAC TOE */
 let tb,turn,done;
 function initTT(){
 tt.textContent='⭕ X O';
@@ -227,7 +225,7 @@ const i=y*3+x;
 if(tb[i])return;
 tb[i]=turn;
 const w=chkTT();
-if(w){done=1;drawTT();setTimeout(()=>showOv(`فاز ${w} 🎉`,0,0),300);return}
+if(w){done=1;drawTT();setTimeout(()=>showOv('فاز '+w+' 🎉',0,0),300);return}
 if(tb.every(c=>c)){done=1;drawTT();setTimeout(()=>showOv('تعادل 🤝',0,0),300);return}
 turn=turn==='X'?'O':'X';updSt3();drawTT();
 };
@@ -241,9 +239,9 @@ for(let i=1;i<3;i++){ctx.beginPath();ctx.moveTo(i*100,0);ctx.lineTo(i*100,300);c
 ctx.font='bold 60px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
 tb.forEach((c,i)=>{if(!c)return;const x=(i%3)*100+50,y=Math.floor(i/3)*100+50;ctx.fillStyle=c==='X'?'#ff3366':'#00ff88';ctx.fillText(c,x,y)});
 }
-function updSt3(){st.innerHTML=`الدور: <span>${turn}</span>`}
+function updSt3(){st.innerHTML='الدور: <span>'+turn+'</span>'}
 
-/* ========== 4) MEMORY ========== */
+/* MEMORY */
 let mc,mf,mm,mv,lk;
 function initMem(){
 tt.textContent='🧩 الذاكرة';
@@ -284,9 +282,9 @@ ctx.fillStyle='#fff';
 ctx.fillText(c.f||c.m?c.v:'?',x+40,y+50);
 });
 }
-function updSt4(){st.innerHTML=`الحركات: <span>${mv}</span> | الأزواج: <span>${mm}/8</span>`}
+function updSt4(){st.innerHTML='الحركات: <span>'+mv+'</span> | الأزواج: <span>'+mm+'/8</span>'}
 
-/* ========== 5) RUNNER ========== */
+/* RUNNER */
 let rp,ro,rs,rsp,rj;
 function initRun(){
 tt.textContent='🏃 الجري';
@@ -323,10 +321,10 @@ ctx.fillStyle='#ff3366';ctx.beginPath();ctx.roundRect(rp.x,rp.y,rp.w,rp.h,5);ctx
 ctx.fillStyle='#00ff88';
 ro.forEach(o=>{ctx.beginPath();ctx.roundRect(o.x,o.y,o.w,o.h,3);ctx.fill()});
 }
-function updSt5(){st.innerHTML=`المسافة: <span>${Math.floor(rs)}</span>`}
+function updSt5(){st.innerHTML='المسافة: <span>'+Math.floor(rs)+'</span>'}
 function endRun(){cancelAnimationFrame(af);af=null;const s=Math.floor(rs);setBest('runner',s);rp=null;showOv('اصطدمت! 💥',s,getBest('runner'))}
 
-/* ========== 6) 2048 ========== */
+/* 2048 */
 let g2,s2;
 function init2048(){
 tt.textContent='🔢 2048';
@@ -393,14 +391,14 @@ ctx.fillStyle=cols[v]||'#3c3a32';
 ctx.beginPath();ctx.roundRect(x+5,y+5,70,70,6);ctx.fill();
 if(v){
 ctx.fillStyle=v<=4?'#776e65':'#fff';
-ctx.font=`bold ${v<100?28:v<1000?22:16}px sans-serif`;
+ctx.font='bold '+(v<100?28:v<1000?22:16)+'px sans-serif';
 ctx.textAlign='center';ctx.textBaseline='middle';
 ctx.fillText(v,x+40,y+40);
 }}
 }
-function updSt6(){st.innerHTML=`النقاط: <span>${s2}</span>`}
+function updSt6(){st.innerHTML='النقاط: <span>'+s2+'</span>'}
 
-/* ========== 7) FLAPPY ========== */
+/* FLAPPY */
 let bp,pi,ps,pg;
 function initFlap(){
 tt.textContent='🐦 الطائر';
@@ -416,14 +414,15 @@ function loopFlap(){
 if(!pg)return;
 bp.vy+=.5;bp.y+=bp.vy;
 if(bp.y<0||bp.y>450){endFlap();return}
-if(Math.random()<.02&&(!pi.length||pi[pi.length-1].x<200)){const g=80+Math.random()*80;pi.push({x:320,gap:g+60,top:Math.random()*180+40})}
+if(Math.random()<.02&&(!pi.length||pi[pi.length-1].x<200)){const g=80+Math.random()*80;pi.push({x:320,gap:g+60,top:Math.random()*180+40,scored:0})}
 pi.forEach(p=>p.x-=2.5);
+pi.forEach(p=>{if(!p.scored&&p.x+50<40){p.scored=1;ps++;updSt7()}});
 pi=pi.filter(p=>p.x>-50);
-pi.forEach(p=>{
-if(bp.y>p.top&&bp.y<p.top+p.gap){}else if(p.x<40&&p.x+50>20){endFlap();return}
-if(p.x===20&&pg)ps++;
-});
-if(pi.length&&pi[0].x<-50){ps++;pi.shift()}
+for(const p of pi){
+if(p.x<40&&p.x+50>20){
+if(bp.y<p.top||bp.y>p.top+p.gap){endFlap();return}
+}
+}
 drawFlap();updSt7();
 af=requestAnimationFrame(loopFlap);
 }
@@ -439,10 +438,10 @@ ctx.beginPath();ctx.roundRect(p.x,p.top+p.gap,50,450-p.top-p.gap,6);ctx.fill();
 ctx.font='30px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
 ctx.fillText('🐦',40,bp.y);
 }
-function updSt7(){st.innerHTML=`النقاط: <span>${ps}</span>`}
+function updSt7(){st.innerHTML='النقاط: <span>'+ps+'</span>'}
 function endFlap(){cancelAnimationFrame(af);af=null;pg=0;setBest('flappy',ps);showOv('سقط! 💥',ps,getBest('flappy'))}
 
-/* ========== 8) PONG ========== */
+/* PONG */
 let pp,pc,pb,psc,ppc;
 function initPong(){
 tt.textContent='🏓 بونغ';
@@ -462,29 +461,18 @@ hint.textContent='حرّك المضرب';
 loopPong();
 }
 function loopPong(){
-if(ppc>=5||psc>=5)return;
+if(ppc>=5||psc>=5){setTimeout(()=>{if(psc>=5)showOv('فزت! 🎉',psc,ppc);else showOv('خسرت 😢',psc,ppc)},200);return}
 pb.x+=pb.dx;pb.y+=pb.dy;
 if(pb.y<pb.r||pb.y>300-pb.r)pb.dy*=-1;
-if(pb.x<30&&pb.y>pp.y&&pb.y<pp.y+pp.h&&pb.dx<0){pb.dx=Math.abs(pb.dx);pb.dx+=.2}
+if(pb.x<30&&pb.y>pp.y&&pb.y<pp.y+pp.h&&pb.dx<0){pb.dx=Math.abs(pb.dx)+.2}
 if(pb.x>400-30-pb.r&&pb.y>pc.y&&pb.y<pc.y+pc.h&&pb.dx>0){pb.dx=-Math.abs(pb.dx)-.2}
-if(pb.x<0){ppc++;reset();return}
-if(pb.x>400){psc++;reset();return}
+if(pb.x<0){ppc++;pb.x=200;pb.y=150;pb.dx=4;pb.dy=3;updSt8()}
+else if(pb.x>400){psc++;pb.x=200;pb.y=150;pb.dx=-4;pb.dy=3;updSt8()}
+else{
 const target=pb.y-pc.h/2;
 pc.y+=(target-pc.y)*.08;
 pc.y=Math.max(0,Math.min(300-pc.h,pc.y));
-drawPong();updSt8();
-af=requestAnimationFrame(loopPong);
-}
-function reset(){
-pb={x:200,y:150,dx:4*(Math.random()>.5?1:-1),dy:3*(Math.random()>.5?1:-1),r:8};
-pp.y=120;pc.y=120;
-updSt8();
-if(ppc>=5||psc>=5){
-setTimeout(()=>{
-if(psc>=5)showOv('فزت! 🎉',psc,ppc);
-else showOv('خسرت 😢',psc,ppc);
-},200);
-return;
+drawPong();
 }
 af=requestAnimationFrame(loopPong);
 }
@@ -495,4 +483,6 @@ ctx.beginPath();ctx.moveTo(200,0);ctx.lineTo(200,300);ctx.stroke();
 ctx.setLineDash([]);
 ctx.fillStyle='#00ff88';ctx.beginPath();ctx.roundRect(20,pp.y,10,pp.h,5);ctx.fill();
 ctx.fillStyle='#ff3366';ctx.beginPath();ctx.roundRect(370,pc.y,10,pc.h,5);ctx.fill();
-ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(pb.x,pb.y,pb.r,0,Math.PI*2);
+ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(pb.x,pb.y,pb.r,0,Math.PI*2);ctx.fill();
+}
+function updSt8(){st.innerHTML='أنت: <span>'+psc+'</span> | الخصم: <span>'+ppc+'</
